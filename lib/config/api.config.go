@@ -32,9 +32,9 @@ type natsConfig struct {
 }
 
 type config struct {
-	Name     string     `json:"name"`    // API name
-	Version  string     `json:"Version"` // API version
-	FilePath string     `json:"FilPath"` // path to Json settings file
+	Name     string     `json:"name"`     // API name
+	Version  string     `json:"Version"`  // API version
+	FilePath string     `json:"FilePath"` // path to Json settings file
 	Nats     natsConfig `json:"Nats"`
 }
 
