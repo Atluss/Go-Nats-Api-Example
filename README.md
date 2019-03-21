@@ -2,7 +2,7 @@ Go Nats API Example
 =====================
 
 This example show how to use [Nats](https://www.nats.io/) to create API.
-Project use [Go modules](https://github.com/golang/go/wiki/Modules) to download downgrade dependencies.
+Project use [Go modules](https://github.com/golang/go/wiki/Modules) to download dependencies.
 
 Docker
 -----------------------------------

@@ -1,0 +1,11 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "dependencies": {
+    
+  },
+  "nats": {
+    "host" : "localhost",
+    "port" : "54222"
+  }
+}
