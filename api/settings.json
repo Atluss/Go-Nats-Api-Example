@@ -1,9 +1,6 @@
 {
-  "name": "api",
+  "name": "Go Nats API Example",
   "version": "1.0.0",
-  "dependencies": {
-    
-  },
   "nats": {
     "host" : "localhost",
     "port" : "54222"
