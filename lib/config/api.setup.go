@@ -2,24 +2,25 @@ package config
 
 import (
 	"github.com/Atluss/Go-Nats-Api-Example/lib"
+	"github.com/gorilla/mux"
 	"github.com/nats-io/go-nats"
 	"time"
 )
 
-func NewApiSetup(settings string) *setup {
+func NewApiSetup(settings string) *Setup {
 
 	cnf, err := Config(settings)
 	lib.FailOnError(err, "error config file")
 
-	set, err := Setup(cnf)
+	set, err := newSetup(cnf)
 	lib.FailOnError(err, "error setup")
 
 	return set
 }
 
-func Setup(cnf *config) (*setup, error) {
+func newSetup(cnf *config) (*Setup, error) {
 
-	set := setup{}
+	set := Setup{}
 
 	if err := cnf.validate(); err != nil {
 		return &set, err
@@ -31,17 +32,20 @@ func Setup(cnf *config) (*setup, error) {
 		return &set, err
 	}
 
+	set.Route = mux.NewRouter().StrictSlash(true)
+
 	return &set, nil
 }
 
 // setup main setup api struct
-type setup struct {
-	Config *config    // api setting
-	Nats   *nats.Conn // nats
+type Setup struct {
+	Config *config     // api setting
+	Nats   *nats.Conn  // nats
+	Route  *mux.Router // mux frontend
 }
 
 // natsConnection setup nats
-func (obj *setup) natsConnection() error {
+func (obj *Setup) natsConnection() error {
 
 	var err error
 
