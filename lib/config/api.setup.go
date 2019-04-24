@@ -4,6 +4,7 @@ import (
 	"github.com/Atluss/Go-Nats-Api-Example/lib"
 	"github.com/gorilla/mux"
 	"github.com/nats-io/go-nats"
+	"log"
 	"time"
 )
 
@@ -48,6 +49,8 @@ type Setup struct {
 func (obj *Setup) natsConnection() error {
 
 	var err error
+
+	log.Println(obj.Config.Nats.Address[0].Address)
 
 	if obj.Nats, err = nats.Connect(obj.Config.Nats.Address[0].Address, nats.MaxReconnects(-1), nats.ReconnectWait(time.Second*5)); err != nil {
 		return err
