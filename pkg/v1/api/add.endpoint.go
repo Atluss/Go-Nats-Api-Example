@@ -11,36 +11,36 @@ type endPoint struct {
 	url string
 }
 
-var EndPoints map[string][]endPoint
+var endPoints map[string][]endPoint
 
 // AddEndPoint add endpoint to reg endpoints array
 func AddEndPoint(queue, url string) {
 
-	if EndPoints == nil {
-		EndPoints = map[string][]endPoint{}
+	if endPoints == nil {
+		endPoints = map[string][]endPoint{}
 	}
 
-	_, ok := EndPoints[queue]
+	_, ok := endPoints[queue]
 	if !ok {
-		EndPoints[queue] = []endPoint{}
+		endPoints[queue] = []endPoint{}
 	}
 
-	EndPoints[queue] = append(EndPoints[queue], endPoint{url: url})
+	endPoints[queue] = append(endPoints[queue], endPoint{url: url})
 }
 
 // CheckEndPoint endpoint in reg endpoints
 func CheckEndPoint(queue, url string) error {
 
-	if EndPoints == nil {
+	if endPoints == nil {
 		return nil
 	}
 
-	_, ok := EndPoints[queue]
+	_, ok := endPoints[queue]
 	if !ok {
 		return nil
 	}
 
-	for _, nc := range EndPoints[queue] {
+	for _, nc := range endPoints[queue] {
 		if nc.url == url {
 			return fmt.Errorf("endpoint: %s already set", url)
 		}

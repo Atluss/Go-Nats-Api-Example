@@ -11,7 +11,7 @@ func TestAddEndPoint(t *testing.T) {
 
 	AddEndPoint(V1ApiQueue, url)
 
-	for i, k := range EndPoints {
+	for i, k := range endPoints {
 		log.Println("=============")
 		log.Printf("Queue: %s", i)
 

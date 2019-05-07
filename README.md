@@ -1,4 +1,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/Atluss/Go-Nats-Api-Example)](https://goreportcard.com/report/github.com/Atluss/Go-Nats-Api-Example)
+[![GoDoc](https://godoc.org/github.com/Atluss/Go-Nats-Api-Example/pkg/v1/api/controllers?status.svg)](https://godoc.org/github.com/Atluss/Go-Nats-Api-Example/pkg/v1/api/controllers)
+
 
 ## Go Nats API Example
 

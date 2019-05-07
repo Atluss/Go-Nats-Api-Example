@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// NewApiSetup return new setup struct with router and nats
 func NewApiSetup(settings string) *Setup {
 
 	cnf, err := Config(settings)
