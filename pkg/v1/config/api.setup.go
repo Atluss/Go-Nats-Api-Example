@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/Atluss/Go-Nats-Api-Example/lib"
+	"github.com/Atluss/Go-Nats-Api-Example/pkg/v1"
 	"github.com/gorilla/mux"
 	"github.com/nats-io/go-nats"
 	"log"
@@ -11,10 +11,10 @@ import (
 func NewApiSetup(settings string) *Setup {
 
 	cnf, err := Config(settings)
-	lib.FailOnError(err, "error config file")
+	v1.FailOnError(err, "error config file")
 
 	set, err := newSetup(cnf)
-	lib.FailOnError(err, "error setup")
+	v1.FailOnError(err, "error setup")
 
 	return set
 }
@@ -38,7 +38,7 @@ func newSetup(cnf *config) (*Setup, error) {
 	return &set, nil
 }
 
-// setup main setup api struct
+// Setup main setup api struct
 type Setup struct {
 	Config *config     // api setting
 	Nats   *nats.Conn  // nats

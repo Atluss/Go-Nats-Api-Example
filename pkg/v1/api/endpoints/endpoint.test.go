@@ -1,11 +1,11 @@
-package v1api
+package endpoints
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Atluss/Go-Nats-Api-Example/lib"
-	"github.com/Atluss/Go-Nats-Api-Example/lib/api"
-	"github.com/Atluss/Go-Nats-Api-Example/lib/config"
+	"github.com/Atluss/Go-Nats-Api-Example/pkg/v1"
+	"github.com/Atluss/Go-Nats-Api-Example/pkg/v1/api"
+	"github.com/Atluss/Go-Nats-Api-Example/pkg/v1/config"
 	"github.com/gorilla/mux"
 	"github.com/nats-io/go-nats"
 	"log"
@@ -14,17 +14,22 @@ import (
 	"time"
 )
 
+// User base struct for users
 type User struct {
 	Id   string
 	Name string
 }
 
+func (u User) String() string {
+	return fmt.Sprintf("Id: %s, Name: %s", u.Id, u.Name)
+}
+
 // NewEndPointV1Test constructor for /v1/test/{id}
 func NewEndPointV1Test(set *config.Setup) (*v1test, error) {
 
-	url := fmt.Sprintf("/%s/test/{id}", V1ApiQueue)
+	url := fmt.Sprintf("/%s/test/{id}", api.V1ApiQueue)
 
-	if err := api.CheckEndPoint(V1ApiQueue, url); err != nil {
+	if err := api.CheckEndPoint(api.V1ApiQueue, url); err != nil {
 		return nil, err
 	}
 
@@ -55,7 +60,7 @@ func (obj *v1test) Request(w http.ResponseWriter, r *http.Request) {
 
 		data, err := json.Marshal(&myUser)
 		if err != nil || len(myUser.Id) == 0 {
-			lib.LogOnError(err, "warning: Problem with parsing the user Id: %s")
+			v1.LogOnError(err, "warning: Problem with parsing the user Id: %s")
 			w.WriteHeader(500)
 			return
 		}
@@ -66,7 +71,7 @@ func (obj *v1test) Request(w http.ResponseWriter, r *http.Request) {
 			myUserWithName := User{}
 
 			err := json.Unmarshal(msg.Data, &myUserWithName)
-			log.Printf("==== %+v", myUserWithName)
+			log.Printf("Request user: %s", myUserWithName)
 
 			if err == nil {
 				myUser = myUserWithName
@@ -74,7 +79,7 @@ func (obj *v1test) Request(w http.ResponseWriter, r *http.Request) {
 
 			w.Header().Set("Content-Type", "application/json")
 
-			lib.LogOnError(json.NewEncoder(w).Encode(myUserWithName), "warning")
+			v1.LogOnError(json.NewEncoder(w).Encode(myUserWithName), "warning")
 		}
 		wg.Done()
 
@@ -113,5 +118,5 @@ func (obj *v1test) NatsQueue(m *nats.Msg) {
 	log.Println("Replying to ", m.Reply)
 
 	err = obj.Setup.Nats.Publish(m.Reply, data)
-	lib.LogOnError(err, "warning")
+	v1.LogOnError(err, "warning")
 }

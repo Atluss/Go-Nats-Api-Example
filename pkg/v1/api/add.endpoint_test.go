@@ -7,10 +7,9 @@ import (
 
 func TestAddEndPoint(t *testing.T) {
 
-	queue := "v1"
 	url := "/test"
 
-	AddEndPoint(queue, url)
+	AddEndPoint(V1ApiQueue, url)
 
 	for i, k := range EndPoints {
 		log.Println("=============")

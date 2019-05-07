@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/Atluss/Go-Nats-Api-Example/api/controllers/apiV1"
-	"github.com/Atluss/Go-Nats-Api-Example/lib"
-	"github.com/Atluss/Go-Nats-Api-Example/lib/config"
+	"github.com/Atluss/Go-Nats-Api-Example/pkg/v1"
+	"github.com/Atluss/Go-Nats-Api-Example/pkg/v1/api/controllers"
+	"github.com/Atluss/Go-Nats-Api-Example/pkg/v1/config"
 	"log"
 	"net/http"
 	"os"
@@ -13,7 +13,7 @@ import (
 
 func main() {
 
-	settingPath := "api/settings.json"
+	settingPath := "settings.json"
 
 	set := config.NewApiSetup(settingPath)
 
@@ -36,8 +36,8 @@ func main() {
 	}()
 
 	// setup nats queue for test request
-	err := apiV1.NewV1Test(set)
-	lib.LogOnError(err, "warning")
+	err := controllers.NewV1Test(set)
+	v1.LogOnError(err, "warning")
 
 	log.Fatal(http.ListenAndServe(":10000", set.Route))
 

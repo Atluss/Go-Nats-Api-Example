@@ -4,12 +4,16 @@ import (
 	"fmt"
 )
 
+// V1ApiQueue api version
+const V1ApiQueue = "v1"
+
 type endPoint struct {
 	url string
 }
 
 var EndPoints map[string][]endPoint
 
+// AddEndPoint add endpoint to reg endpoints array
 func AddEndPoint(queue, url string) {
 
 	if EndPoints == nil {
@@ -24,6 +28,7 @@ func AddEndPoint(queue, url string) {
 	EndPoints[queue] = append(EndPoints[queue], endPoint{url: url})
 }
 
+// CheckEndPoint endpoint in reg endpoints
 func CheckEndPoint(queue, url string) error {
 
 	if EndPoints == nil {
@@ -42,5 +47,4 @@ func CheckEndPoint(queue, url string) error {
 	}
 
 	return nil
-
 }
