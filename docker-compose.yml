@@ -1,4 +1,11 @@
-version: "2"
+version: "3"
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.29.0.0/16
 
 services:
 
@@ -10,6 +17,8 @@ services:
     ports:
       - "8222:8222"
     hostname: nats-server
+    networks:
+      - default
 
   app:
     container_name: cn_go_nats_api_example
@@ -23,6 +32,8 @@ services:
     depends_on:
       - nats
     ports:
-      - "4080:10000"
+      - "8080:8080"
     links:
       - nats
+    networks:
+      - default

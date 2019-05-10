@@ -1,10 +1,9 @@
-package endpoints
+package api
 
 import (
 	"encoding/json"
 	"fmt"
 	"github.com/Atluss/Go-Nats-Api-Example/pkg/v1"
-	"github.com/Atluss/Go-Nats-Api-Example/pkg/v1/api"
 	"github.com/Atluss/Go-Nats-Api-Example/pkg/v1/config"
 	"github.com/gorilla/mux"
 	"github.com/nats-io/go-nats"
@@ -27,24 +26,34 @@ func (u User) String() string {
 // NewEndPointV1Test constructor for /v1/test/{id}
 func NewEndPointV1Test(set *config.Setup) (*v1test, error) {
 
-	url := fmt.Sprintf("/%s/test/{id}", api.V1ApiQueue)
-
-	if err := api.CheckEndPoint(api.V1ApiQueue, url); err != nil {
+	url := fmt.Sprintf("/%s/test/{id}", V1ApiQueue)
+	if err := CheckEndPoint(V1ApiQueue, url); err != nil {
 		return nil, err
 	}
-
 	endP := v1test{
 		Setup: set,
 		Url:   url,
 	}
-
-	return &endP, nil
-
+	err := endP.SetRouteAndNats()
+	AddEndPoint(V1ApiQueue, endP.Url)
+	return &endP, err
 }
 
 type v1test struct {
 	Setup *config.Setup
 	Url   string
+}
+
+// SetRouteAndNats setup route link and Nats queue
+func (obj *v1test) SetRouteAndNats() error {
+	// register queue for API and url
+	_, err := obj.Setup.Nats.QueueSubscribe(obj.Url, V1ApiQueue, obj.NatsQueue)
+	if !v1.LogOnError(err, "Can't listen nats queue") {
+		return err
+	}
+	// register frontend url
+	obj.Setup.Route.HandleFunc(obj.Url, obj.Request)
+	return nil
 }
 
 // Request setup mux answer

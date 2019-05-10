@@ -59,3 +59,14 @@ func (obj *Setup) natsConnection() error {
 
 	return nil
 }
+
+func (obj *Setup) Print() {
+	log.Printf("Name: %s", obj.Config.Name)
+	log.Printf("Version: %s", obj.Config.Version)
+	log.Printf("Nats version: %s", obj.Config.Nats.Version)
+	log.Printf("Nats ReconnectedWait: %d", obj.Config.Nats.ReconnectedWait)
+	log.Printf("Nats host: %s", obj.Config.Nats.Address[0].Host)
+	log.Printf("Nats port: %s", obj.Config.Nats.Address[0].Port)
+	log.Printf("Nats address: %s", obj.Config.Nats.Address[0].Address)
+	log.Printf("Nats address(multi): %s", obj.Config.GetNatsAddresses())
+}
